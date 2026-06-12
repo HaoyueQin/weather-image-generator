@@ -152,6 +152,8 @@ Thumbs.db
 output/
 config.py
 config_local.py
+.env.py
+.env
 *.png
 *.jpg
 *.jpeg
