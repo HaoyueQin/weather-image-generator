@@ -19,9 +19,42 @@ pip install -r requirements.txt
 
 ## 配置
 
-1. 复制 `config.py.example` 为 `config.py`
-2. 在 `config.py` 中填入你的天气API密钥
-3. 可选：调整其他配置项
+### API密钥配置（重要）
+
+本项目使用和风天气API获取天气数据。为了安全起见，API密钥**不存储在代码仓库中**，而是单独存储在本地文件中。
+
+**获取API密钥**：
+1. 访问 https://dev.qweather.com/
+2. 注册账号并登录
+3. 在控制台创建新的API Key
+4. 复制API Key
+
+**配置API密钥**：
+
+1. 在项目根目录创建 `.env.py` 文件
+2. 在 `.env.py` 文件中添加以下内容：
+
+```python
+# .env.py（不要提交到Git）
+API_KEY = "你的和风天气API密钥"
+```
+
+3. 保存文件
+
+**安全说明**：
+- `.env.py` 文件已添加到 `.gitignore`，不会被上传到GitHub
+- `config.py` 文件只包含公开配置（城市列表、颜色等），可以安全上传
+- 请勿将API密钥硬编码在代码中或提交到版本控制
+
+### 其他配置
+
+`config.py` 文件包含以下公开配置：
+- 城市列表
+- 图片尺寸和颜色主题
+- 字体配置
+- 输出目录
+
+你可以根据需要修改这些配置。
 
 ## 使用方法
 
@@ -54,11 +87,12 @@ generator.generate_image([weather_data], "weather.png")
 
 ```
 weather-image-generator/
-├── .gitignore
-├── README.md
-├── requirements.txt
-├── config.py               # 配置文件
-├── main.py                 # 主程序入口
+├── .gitignore          # Git忽略文件
+├── .env.py             # API密钥配置（本地文件，不上传）
+├── README.md           # 项目说明文档
+├── requirements.txt    # Python依赖
+├── config.py           # 公开配置文件（城市、颜色等）
+├── main.py             # 主程序入口
 ├── src/
 │   ├── __init__.py
 │   ├── weather_api.py      # 天气API接口
