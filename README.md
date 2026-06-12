@@ -86,7 +86,3 @@ weather-image-generator/
 ## 许可证
 
 MIT License
-
-## 作者
-
-Haoyue Qin (2296336141@qq.com)
