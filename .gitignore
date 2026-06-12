@@ -150,6 +150,7 @@ Thumbs.db
 
 # Project specific
 output/
+config.py
 config_local.py
 *.png
 *.jpg
