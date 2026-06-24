@@ -7,5 +7,8 @@ beautifulsoup4>=4.11.0
 # Image generation
 Pillow>=9.0.0
 
-# Lunar date conversion (optional, for accurate lunar calendar)
-lunardate>=0.2.0
+# Environment variables (.env file support)
+python-dotenv>=1.0.0
+
+# Solar term (节气) calculation - based on astronomical algorithms
+sxtwl>=1.1.0

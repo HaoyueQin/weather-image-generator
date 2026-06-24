@@ -31,18 +31,23 @@ pip install -r requirements.txt
 
 **配置API密钥**：
 
-1. 在项目根目录创建 `.env.py` 文件
-2. 在 `.env.py` 文件中添加以下内容：
+1. 复制 `.env.example` 为 `.env`：
 
-```python
-# .env.py（不要提交到Git）
-API_KEY = "你的和风天气API密钥"
+```bash
+cp .env.example .env
+```
+
+2. 在 `.env` 文件中填入你的真实 API Key：
+
+```env
+API_KEY=你的和风天气API密钥
 ```
 
 3. 保存文件
 
 **安全说明**：
-- `.env.py` 文件已添加到 `.gitignore`，不会被上传到GitHub
+- `.env` 文件已添加到 `.gitignore`，不会被上传到GitHub
+- 项目提供了 `.env.example` 作为配置模板
 - `config.py` 文件只包含公开配置（城市列表、颜色等），可以安全上传
 - 请勿将API密钥硬编码在代码中或提交到版本控制
 
@@ -88,7 +93,8 @@ generator.generate_image([weather_data], "weather.png")
 ```
 weather-image-generator/
 ├── .gitignore          # Git忽略文件
-├── .env.py             # API密钥配置（本地文件，不上传）
+├── .env.example        # API密钥配置模板（安全，可提交）
+├── .env                # API密钥配置（本地文件，不上传）
 ├── README.md           # 项目说明文档
 ├── requirements.txt    # Python依赖
 ├── config.py           # 公开配置文件（城市、颜色等）
@@ -97,7 +103,7 @@ weather-image-generator/
 │   ├── __init__.py
 │   ├── weather_api.py      # 天气API接口
 │   ├── image_generator.py  # 图像生成
-│   └── date_utils.py       # 日期/节日工具
+│   └── date_utils.py       # 日期/节日/节气工具（sxtwl天文计算）
 ├── output/                 # 生成的图片
 └── examples/               # 示例图片
 ```

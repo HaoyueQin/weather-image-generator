@@ -3,17 +3,18 @@
 # ============================================================
 # API配置 - 和风天气
 # ============================================================
-# API密钥存储在 .env.py 文件中（不上传到GitHub）
+# API密钥通过 .env 文件管理（不上传到GitHub）
 # 请在 https://dev.qweather.com/ 注册获取你的API Key
-# 然后在 .env.py 文件中填入你的API_KEY
-API_DOMAIN = "nk7h2q8uut.re.qweatherapi.com"
+# 然后在 .env 文件中填入你的 API_KEY=xxx
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
-# 从 .env.py 读取API密钥
-try:
-    from .env import API_KEY
-except ImportError:
-    print("警告：未找到 .env.py 文件，请创建该文件并填入你的API_KEY")
-    API_KEY = ""
+# 加载项目根目录的 .env 文件
+load_dotenv(Path(__file__).parent / ".env")
+
+API_KEY = os.getenv("API_KEY", "")
+API_DOMAIN = os.getenv("API_DOMAIN", "nk7h2q8uut.re.qweatherapi.com")
 
 # ============================================================
 # 城市配置（18个城市）
