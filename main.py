@@ -11,7 +11,7 @@ from datetime import datetime
 # 添加项目根目录到路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from config import API_DOMAIN, API_KEY, CITIES, COLORS, IMAGE_WIDTH, IMAGE_HEIGHT, FONT_PATH
+from config import API_DOMAIN, API_KEY, CITIES, COLORS, IMAGE_WIDTH, FONT_PATH
 from src.weather_api import WeatherAPI
 from src.image_generator import WeatherImageGenerator
 from src.date_utils import get_upcoming_events, format_date_info
@@ -55,7 +55,6 @@ def main():
     # 初始化图片生成器
     config = {
         "width": IMAGE_WIDTH,
-        "height": IMAGE_HEIGHT,
         "colors": COLORS,
         "font_path": FONT_PATH,
     }
