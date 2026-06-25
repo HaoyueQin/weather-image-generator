@@ -60,7 +60,14 @@ python generate.py
 
 每个城市需要一个**和风天气 LocationID**（9位数字）。获取方式：
 
-### 方法一：GeoAPI 搜索（推荐）
+### 方法一：查看完整参考表（推荐）
+
+本项目提供全国 **2500+ 城市/区县** 的完整 LocationID 参考表：
+
+- **[CITY_IDS.md](CITY_IDS.md)** - 按省份分组的完整列表，可直接搜索
+- **[city_ids.csv](city_ids.csv)** - CSV 格式，可用 Excel 打开筛选
+
+### 方法二：GeoAPI 搜索
 
 访问 https://dev.qweather.com/docs/api/geoapi/ ，用城市名搜索：
 
@@ -82,7 +89,7 @@ GET https://geoapi.qweather.com/v2/city/lookup?location=曲阜&key=你的KEY
 }
 ```
 
-### 方法二：浏览器直接访问
+### 方法三：浏览器直接访问
 
 在浏览器中打开（替换 `你的KEY`）：
 
@@ -92,7 +99,7 @@ https://geoapi.qweather.com/v2/city/lookup?location=你的城市名&key=你的KE
 
 在返回的 JSON 中找到 `"id": "xxxxxxxxx"`。
 
-### 方法三：常用城市 ID 参考
+### 方法四：常用城市 ID 速查
 
 | 城市 | ID | 城市 | ID | 城市 | ID |
 |------|------|------|------|------|------|
@@ -110,7 +117,7 @@ https://geoapi.qweather.com/v2/city/lookup?location=你的城市名&key=你的KE
 | 呼和浩特 | 101080101 | 兰州 | 101160101 | 银川 | 101170101 |
 | 西宁 | 101150101 | 曲阜 | 101120710 | 烟台 | 101120501 |
 
-> 更多城市 ID 请通过 GeoAPI 搜索获取，支持全国所有地级市、区县。
+> 完整列表请查看 [CITY_IDS.md](CITY_IDS.md)，覆盖全国所有地级市、县级市、区县。
 
 ## 项目结构
 
