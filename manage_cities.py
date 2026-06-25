@@ -68,20 +68,20 @@ def fuzzy_match(query: str, cities: list) -> list:
     - "昌平区" -> 匹配 name="昌平"
     - "山东曲阜" -> 匹配 adm1="山东", name="曲阜"
     """
-    # 定义常见后缀
-    suffixes = ['市', '区', '县', '镇', '省', '地区', '州', '盟']
+    # 定义常见后缀（注意：州/镇/盟 是城市名的一部分，不作为后缀）
+    suffixes = ['市', '区', '县', '省', '地区']
     
     def remove_suffix(text: str) -> str:
-        """去除常见后缀，确保去除后至少保留2个字符"""
+        """去除常见后缀，确保去除后至少保留1个字符"""
         for suffix in suffixes:
-            if text.endswith(suffix) and len(text) > len(suffix) + 1:
+            if text.endswith(suffix) and len(text) > len(suffix):
                 return text[:-len(suffix)]
         return text
     
     def get_suffix(text: str) -> str:
         """获取后缀"""
         for suffix in suffixes:
-            if text.endswith(suffix) and len(text) > len(suffix) + 1:
+            if text.endswith(suffix) and len(text) > len(suffix):
                 return suffix
         return ''
     
@@ -102,6 +102,12 @@ def fuzzy_match(query: str, cities: list) -> list:
         city_name = city.get('name', '')
         adm2 = city.get('adm2', '')
         return city_name == adm2 or (city_name.endswith('市') and city_name[:-1] == adm2)
+    
+    def is_main_city(city: dict) -> bool:
+        """判断是否为主要地级市（adm2与name相同）"""
+        city_name = city.get('name', '')
+        adm2 = city.get('adm2', '')
+        return city_name == adm2
     
     query = normalize_text(query)
     query_no_suffix = remove_suffix(query)
@@ -145,30 +151,45 @@ def fuzzy_match(query: str, cities: list) -> list:
         
         # 4. 精确匹配城市名（query 完全等于 city_name）
         elif query == city_name:
-            base_score = 105
+            base_score = 110  # 精确匹配，高于rule5+type_bonus
             matched = True
         
         # 5. query去后缀 == city_name去后缀
         elif query_no_suffix == city_name_no_suffix:
-            # 后缀相同加分（如"新县"匹配"新县"优于"新市"）
-            suffix_bonus = 10 if query_suffix == city_suffix else 0
+            # 后缀完全匹配（如"东营区"匹配"东营区"优于"东营"）
+            # query有后缀且city也有后缀且相同 → 高分
+            if query_suffix and city_suffix and query_suffix == city_suffix:
+                suffix_bonus = 20  # "东营区" vs "东营区"
+            elif query_suffix == city_suffix:
+                suffix_bonus = 10  # 后缀相同
+            else:
+                suffix_bonus = 0
             base_score = 95 + suffix_bonus
             matched = True
         
         # 6. 查询以城市名结尾（如"北京昌平"以"昌平"结尾）
-        elif len(city_name_no_suffix) >= 2 and query_no_suffix.endswith(city_name_no_suffix):
+        elif len(city_name_no_suffix) >= 1 and query_no_suffix.endswith(city_name_no_suffix):
             prefix = query_no_suffix[:-len(city_name_no_suffix)]
             prefix_no_suffix = remove_all_suffixes(prefix)
-            if prefix_no_suffix and adm2 and prefix_no_suffix == adm2_no_suffix:
-                base_score = 105
-            elif prefix_no_suffix and adm1 and prefix_no_suffix == adm1_no_suffix:
-                base_score = 104
-            elif prefix_no_suffix and adm2 and (prefix_no_suffix in adm2_no_suffix or adm2_no_suffix in prefix_no_suffix):
-                base_score = 102
-            elif prefix_no_suffix and adm1 and (prefix_no_suffix in adm1_no_suffix or adm1_no_suffix in prefix_no_suffix):
-                base_score = 101
+            # 短名称(1字)只允许精确前缀匹配，防止"保定"误匹配"定州"→"定"
+            if len(city_name_no_suffix) < 2:
+                if prefix_no_suffix and adm2 and prefix_no_suffix == adm2_no_suffix:
+                    base_score = 115  # 精确"地级市+区县"形式
+                elif prefix_no_suffix and adm1 and prefix_no_suffix == adm1_no_suffix:
+                    base_score = 114  # 精确"省+区县"形式
+                else:
+                    base_score = 70 + len(city_name_no_suffix) * 3
             else:
-                base_score = 70 + len(city_name_no_suffix) * 3
+                if prefix_no_suffix and adm2 and prefix_no_suffix == adm2_no_suffix:
+                    base_score = 115  # 地级市+区县形式，最高优先
+                elif prefix_no_suffix and adm1 and prefix_no_suffix == adm1_no_suffix:
+                    base_score = 114  # 省+区县形式
+                elif prefix_no_suffix and adm2 and (prefix_no_suffix in adm2_no_suffix or adm2_no_suffix in prefix_no_suffix):
+                    base_score = 112  # 地级市部分匹配
+                elif prefix_no_suffix and adm1 and (prefix_no_suffix in adm1_no_suffix or adm1_no_suffix in prefix_no_suffix):
+                    base_score = 111  # 省部分匹配
+                else:
+                    base_score = 70 + len(city_name_no_suffix) * 3
             matched = True
         
         # 7. 查询包含城市名（且城市名长度>=2）
@@ -194,8 +215,13 @@ def fuzzy_match(query: str, cities: list) -> list:
             matched = True
         
         if matched:
-            # 额外加分：地级市优先（当有同名城市时）
-            type_bonus = 5 if is_city_type(city) else 0
+            # 额外加分：主要地级市最高优先，其次是其他地级市
+            if is_main_city(city):
+                type_bonus = 10  # 主要地级市（adm2 == name）
+            elif is_city_type(city):
+                type_bonus = 5   # 其他地级市
+            else:
+                type_bonus = 0   # 区县
             results.append((base_score + type_bonus, city))
     
     # 按分数降序排序
