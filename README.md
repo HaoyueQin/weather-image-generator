@@ -60,12 +60,14 @@ python generate.py
 
 每个城市需要一个**和风天气 LocationID**（9位数字）。获取方式：
 
-### 方法一：查看完整参考表（推荐）
+### 方法一：查看参考表（推荐）
 
-本项目提供全国 **2500+ 城市/区县** 的完整 LocationID 参考表：
+本项目提供 **2500+ 城市/区县** 的 LocationID 参考表，以中国城市为主，也包含部分其他国家和地区：
 
-- **[CITY_IDS.md](CITY_IDS.md)** - 按省份分组的完整列表，可直接搜索
+- **[CITY_IDS.md](CITY_IDS.md)** - 按地区分组的完整列表，可直接搜索
 - **[city_ids.csv](city_ids.csv)** - CSV 格式，可用 Excel 打开筛选
+
+> **注意**：参考表可能有遗漏。如果你需要的城市不在其中，可以向作者提 [Issue](https://github.com/HaoyueQin/weather-image-generator/issues)，我们会及时补充。
 
 ### 方法二：GeoAPI 搜索
 
@@ -117,7 +119,7 @@ https://geoapi.qweather.com/v2/city/lookup?location=你的城市名&key=你的KE
 | 呼和浩特 | 101080101 | 兰州 | 101160101 | 银川 | 101170101 |
 | 西宁 | 101150101 | 曲阜 | 101120710 | 烟台 | 101120501 |
 
-> 完整列表请查看 [CITY_IDS.md](CITY_IDS.md)，覆盖全国所有地级市、县级市、区县。
+> 完整列表请查看 [CITY_IDS.md](CITY_IDS.md)，覆盖中国所有地级市、县级市、区县及部分海外城市。
 
 ## 项目结构
 
