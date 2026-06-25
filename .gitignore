@@ -153,6 +153,7 @@ output/
 .env.py
 .env
 local_config.py
+.reasonix/
 *.png
 *.jpg
 *.jpeg

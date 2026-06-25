@@ -1,127 +1,103 @@
-# 天气预报播报图片生成器
+# 天气预报图片生成器
 
-一个简单的天气预报播报图片生成工具，可以获取多个城市的实时天气信息，并生成精美的天气预报播报图片。
+获取 18 个城市的实时天气数据，自动生成精美的天气预报播报图片，并一键复制到剪贴板。
 
 ## 功能特点
 
-- 支持选择多个城市获取天气信息
-- 自动生成包含天气图标、温度、城市名的播报图片
-- 显示未来节日/节气倒计时
-- 显示天气预警信息
-- 浅色主题，清晰布局
-- 支持三天天气预报（今天、明天、后天）
+- 和风天气 API 获取 18 个城市三天天气预报、实况天气、气象预警
+- 自动生成包含天气符号、温度、风力、预警信息的播报图片
+- 显示未来 5 个节日/节气倒计时（节气基于天文算法精确计算）
+- 浅蓝+浅绿+浅紫渐变背景 + 毛玻璃卡片 + 装饰花纹
+- 多字体排版：标题行楷、城市名楷体、英文 Georgia 衬线体
+- 生成后自动复制到剪贴板，可直接粘贴到微信/QQ/钉钉
+- 图片按月分类保存：`output/2026_06/weather_2026_06_25.png`
 
-## 安装依赖
+## 快速开始
+
+### 1. 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 配置
+### 2. 配置 API 密钥
 
-### API密钥配置（重要）
-
-本项目使用和风天气API获取天气数据。为了安全起见，API密钥**不存储在代码仓库中**，而是单独存储在本地文件中。
-
-**获取API密钥**：
-1. 访问 https://dev.qweather.com/
-2. 注册账号并登录
-3. 在控制台创建新的API Key
-4. 复制API Key
-
-**配置API密钥**：
-
-1. 复制 `.env.example` 为 `.env`：
+复制 `.env.example` 为 `.env`，填入你的和风天气 API Key：
 
 ```bash
 cp .env.example .env
 ```
 
-2. 在 `.env` 文件中填入你的真实 API Key：
+在 `.env` 中填入：
 
-```env
+```
 API_KEY=你的和风天气API密钥
+API_DOMAIN=nk7h2q8uut.re.qweatherapi.com
 ```
 
-3. 保存文件
+获取 API Key：https://dev.qweather.com/
 
-**安全说明**：
-- `.env` 文件已添加到 `.gitignore`，不会被上传到GitHub
-- 项目提供了 `.env.example` 作为配置模板
-- `config.py` 文件只包含公开配置（城市列表、颜色等），可以安全上传
-- 请勿将API密钥硬编码在代码中或提交到版本控制
+### 3. 一键生成
 
-### 其他配置
+**方式一：双击 `weather.bat`**
 
-`config.py` 文件包含以下公开配置：
-- 城市列表
-- 图片尺寸和颜色主题
-- 字体配置
-- 输出目录
+自动运行脚本，生成图片并复制到剪贴板。
 
-你可以根据需要修改这些配置。
-
-## 使用方法
-
-### 命令行模式
+**方式二：命令行**
 
 ```bash
-# 基本用法
-python main.py
-
-# 指定输出文件
-python main.py --output weather.png
+python generate.py
 ```
 
-### 作为模块使用
+**方式三：CLI 详细输出**
 
-```python
-from src.weather_api import WeatherAPI
-from src.image_generator import WeatherImageGenerator
-
-# 获取天气数据
-api = WeatherAPI()
-weather_data = api.get_weather("北京")
-
-# 生成图片
-generator = WeatherImageGenerator()
-generator.generate_image([weather_data], "weather.png")
+```bash
+python main.py
 ```
 
 ## 项目结构
 
 ```
 weather-image-generator/
-├── .gitignore          # Git忽略文件
-├── .env.example        # API密钥配置模板（安全，可提交）
-├── .env                # API密钥配置（本地文件，不上传）
-├── README.md           # 项目说明文档
-├── requirements.txt    # Python依赖
-├── config.py           # 公开配置文件（城市、颜色等）
-├── main.py             # 主程序入口
+├── .env.example        # API 密钥配置模板（可提交）
+├── .env                # API 密钥配置（不提交）
+├── .gitignore
+├── README.md
+├── config.py           # 公开配置（城市列表、配色、字体）
+├── requirements.txt    # Python 依赖
+├── main.py             # CLI 入口（详细输出）
+├── generate.py         # 一键生成 + 复制到剪贴板
+├── weather.bat         # 双击运行脚本
 ├── src/
 │   ├── __init__.py
-│   ├── weather_api.py      # 天气API接口
-│   ├── image_generator.py  # 图像生成
-│   └── date_utils.py       # 日期/节日/节气工具（sxtwl天文计算）
-├── output/                 # 生成的图片
+│   ├── weather_api.py      # 天气 API 接口（和风天气 v7）
+│   ├── image_generator.py  # 图片生成（PIL 毛玻璃卡片）
+│   └── date_utils.py       # 日期/农历/节气/节日（sxtwl 天文算法）
+├── output/
+│   └── 2026_06/
+│       └── weather_2026_06_25.png
 └── examples/               # 示例图片
 ```
 
 ## 支持的城市
 
-支持全球主要城市，中文或英文名称均可：
-- 中国：北京、上海、广州、深圳、杭州等
-- 国际：Tokyo、New York、London、Paris等
+18 个城市（硬编码在 `config.py`）：曲阜、青岛、昌平、新县、奎文、广州、张店、武汉、大连、保定、烟台、德州、南京、石家庄、潢川、海淀、瓯海、丰台。
 
-## 天气预警
+## 技术栈
 
-支持显示以下类型的天气预警：
-- 高温预警
-- 暴雨预警
-- 雷电预警
-- 大风预警
-- 等等
+| 组件 | 技术 |
+|------|------|
+| 天气数据 | 和风天气 API v7 |
+| 图片生成 | Pillow (PIL) |
+| 节气计算 | sxtwl（寿星天文历） |
+| 配置管理 | python-dotenv |
+| 剪贴板 | pywin32 (win32clipboard) |
+
+## 安全说明
+
+- `.env` 文件已添加到 `.gitignore`，不会上传到 GitHub
+- `.env.example` 作为配置模板，不含真实密钥
+- 请勿将 API 密钥硬编码在代码中
 
 ## 许可证
 

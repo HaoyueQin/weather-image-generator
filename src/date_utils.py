@@ -123,7 +123,7 @@ def get_upcoming_events(
     events = []
     year = target_date.year
 
-    # 用 getJieQiByYear 高效获取当年及下一年的节气
+    # 收集节气（当年及下一年）
     for y in (year, year + 1):
         jieqi_list = sxtwl.getJieQiByYear(y)
         for item in jieqi_list:
@@ -132,15 +132,30 @@ def get_upcoming_events(
             if event_date > target_date and 0 <= item.jqIndex < len(JIEQI_NAMES):
                 events.append((event_date, JIEQI_NAMES[item.jqIndex]))
 
-    # 如果节气不够，再补充公历节日
-    if len(events) < num_events:
-        for (m, d), name in FESTIVALS.items():
-            try:
-                event_date = datetime(year, m, d)
-                if event_date > target_date:
-                    events.append((event_date, name))
-            except ValueError:
-                pass
+    # 收集公历节日
+    for (m, d), name in FESTIVALS.items():
+        try:
+            event_date = datetime(year, m, d)
+            if event_date > target_date:
+                events.append((event_date, name))
+        except ValueError:
+            pass
+
+    # 收集农历节日
+    for (lm, ld), name in LUNAR_FESTIVALS.items():
+        try:
+            # 除夕特殊处理：如果腊月只有29天，取腊月廿九
+            actual_ld = ld
+            if lm == 12 and ld == 30:
+                days_in_month = sxtwl.getLunarMonthNum(year, lm)
+                if days_in_month == 0 or days_in_month < 30:
+                    actual_ld = 29
+            day_info = sxtwl.fromLunar(year, lm, actual_ld)
+            event_date = datetime(year, day_info.getSolarMonth(), day_info.getSolarDay())
+            if event_date > target_date:
+                events.append((event_date, name))
+        except Exception:
+            pass
 
     # 按日期排序，取前 N 个
     events.sort(key=lambda x: x[0])

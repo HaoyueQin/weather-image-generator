@@ -47,35 +47,64 @@ IMAGE_WIDTH = 1440
 IMAGE_HEIGHT = 3200
 IMAGE_FORMAT = "PNG"
 
-# 浅色主题颜色配置
+# 配色方案：浅蓝 + 浅绿 + 浅紫，高级感渐变
 COLORS = {
-    "background": (245, 248, 252),        # 浅灰蓝背景
-    "card_bg": (255, 255, 255),           # 白色卡片
-    "card_border": (220, 225, 235),       # 浅灰边框
-    "card_highlight": (240, 248, 255),    # 卡片高亮背景
-    "text_primary": (45, 50, 65),         # 深色主文字
-    "text_secondary": (100, 110, 130),    # 灰色次要文字
-    "text_accent": (59, 130, 246),        # 蓝色强调
-    "title": (30, 64, 175),              # 深蓝色标题
-    "warning": (220, 38, 38),             # 红色预警
-    "warning_bg": (254, 242, 242),        # 预警背景
-    "success": (22, 163, 74),             # 绿色/晴天
-    "hot": (234, 88, 12),                 # 橙色高温
-    "cold": (37, 99, 235),               # 蓝色低温
-    "divider": (226, 232, 240),           # 分割线
-    "section_bg": (241, 245, 249),        # 区域背景
-    "today_bg": (240, 253, 244),          # 今天卡片背景（浅绿）
-    "tomorrow_bg": (255, 251, 235),       # 明天卡片背景（浅黄）
-    "dayafter_bg": (239, 246, 255),       # 后天卡片背景（浅蓝）
+    # 背景三段渐变（浅紫→浅蓝→浅绿）
+    "bg_top": (235, 230, 250),            # 浅紫
+    "bg_mid": (225, 240, 255),            # 浅蓝
+    "bg_bottom": (225, 250, 240),         # 浅绿
+
+    # 装饰色
+    "deco_purple": (180, 160, 220),        # 紫色装饰
+    "deco_blue": (140, 190, 240),          # 蓝色装饰
+    "deco_green": (140, 210, 190),         # 绿色装饰
+    "deco_line": (200, 180, 230),          # 装饰线条
+
+    # 卡片 - 玻璃质感
+    "card_bg": (255, 255, 255),
+    "card_border": (255, 255, 255),
+    "card_shadow": (170, 180, 210),
+    "card_highlight": (240, 245, 255),
+
+    # 文字层次
+    "text_primary": (35, 40, 65),          # 深蓝紫主文字
+    "text_secondary": (110, 120, 150),     # 柔灰次要文字
+    "text_tertiary": (155, 165, 190),      # 浅灰辅助文字
+    "text_accent": (100, 130, 220),        # 蓝紫强调
+    "title": (50, 40, 100),                # 深紫标题
+
+    # 预警
+    "warning": (220, 60, 70),
+    "warning_bg": (255, 238, 238),
+
+    # 状态色
+    "success": (60, 175, 120),             # 柔绿
+    "hot": (235, 120, 60),                 # 暖橙
+    "cold": (80, 140, 220),                # 冷蓝
+
+    # 分割线
+    "divider": (210, 215, 235),
+    "divider_purple": (200, 190, 230),     # 紫调分割线
+
+    # 区域背景
+    "section_bg": (240, 238, 252),         # 浅紫区域
+    "section_bg_green": (232, 248, 240),   # 浅绿区域
+
+    # 日期标签
+    "today_bg": (218, 245, 228),
+    "today_text": (40, 140, 90),
+    "tomorrow_bg": (248, 238, 255),
+    "tomorrow_text": (120, 80, 180),
+    "dayafter_bg": (225, 238, 255),
+    "dayafter_text": (60, 110, 200),
+
+    # 温度色
+    "temp_warm": (235, 120, 70),
+    "temp_cool": (70, 140, 220),
 }
 
 # 字体配置
 FONT_PATH = "C:\\Windows\\Fonts\\msyh.ttc"
-FONT_SIZE_TITLE = 72
-FONT_SIZE_LARGE = 48
-FONT_SIZE_NORMAL = 36
-FONT_SIZE_SMALL = 30
-FONT_SIZE_TINY = 26
 
 # 输出目录
 OUTPUT_DIR = "output"

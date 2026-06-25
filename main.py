@@ -62,9 +62,9 @@ def main():
     generator = WeatherImageGenerator(config)
 
     # 生成图片
-    output_dir = "output"
+    output_dir = os.path.join("output", now.strftime("%Y_%m"))
     os.makedirs(output_dir, exist_ok=True)
-    output_filename = f"weather_{now.strftime('%Y%m%d_%H%M%S')}.png"
+    output_filename = f"weather_{now.strftime('%Y_%m_%d')}.png"
     output_path = os.path.join(output_dir, output_filename)
 
     print(f"\n正在生成图片...")
