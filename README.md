@@ -171,11 +171,14 @@ weather-image-generator/
 ├── requirements.txt    # Python 依赖
 ├── main.py             # CLI 入口（详细输出）
 ├── generate.py         # 一键生成 + 复制到剪贴板
-├── weather.bat         # 双击运行脚本
+├── weather.bat         # 一键生成天气图片（双击运行）
 ├── city_manager_gui.py # 图形界面管理城市（tkinter）
+├── 城市管理.bat        # 一键启动GUI管理城市（双击运行）
 ├── manage_cities.py    # 命令行管理城市
 ├── city_ids.csv        # 城市数据库（2500+城市）
 ├── CITY_IDS.md         # 城市ID参考表
+├── get_city_ids_v2.py  # 城市ID获取工具脚本
+├── test_fuzzy_match.py # 模糊匹配测试用例（525城市1731查询）
 ├── src/
 │   ├── __init__.py
 │   ├── weather_api.py      # 天气 API 接口（和风天气 v7）
