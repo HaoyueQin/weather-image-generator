@@ -41,6 +41,8 @@ API_DOMAIN=nk7h2q8uut.re.qweatherapi.com
 
 #### 方法一：图形界面管理（推荐）
 
+双击 `城市管理.bat` 或运行：
+
 ```bash
 python city_manager_gui.py
 ```
