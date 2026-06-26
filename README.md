@@ -39,7 +39,19 @@ API_DOMAIN=nk7h2q8uut.re.qweatherapi.com
 
 ### 3. 配置城市列表
 
-#### 方法一：使用城市管理工具（推荐）
+#### 方法一：图形界面管理（推荐）
+
+```bash
+python city_manager_gui.py
+```
+
+图形界面支持：
+- 模糊搜索城市（输入城市名、区县名均可）
+- 一键添加/删除城市
+- 实时显示当前城市列表
+- 自动保存到 config.py
+
+#### 方法二：命令行管理工具
 
 ```bash
 python manage_cities.py
@@ -62,7 +74,7 @@ python manage_cities.py
 - "北京昌平"、"北京市昌平区"
 - "山东曲阜"、"曲阜市"
 
-#### 方法二：手动编辑 config.py
+#### 方法三：手动编辑 config.py
 
 在 `config.py` 的 `CITIES` 字典中添加或修改城市：
 
@@ -160,6 +172,10 @@ weather-image-generator/
 ├── main.py             # CLI 入口（详细输出）
 ├── generate.py         # 一键生成 + 复制到剪贴板
 ├── weather.bat         # 双击运行脚本
+├── city_manager_gui.py # 图形界面管理城市（tkinter）
+├── manage_cities.py    # 命令行管理城市
+├── city_ids.csv        # 城市数据库（2500+城市）
+├── CITY_IDS.md         # 城市ID参考表
 ├── src/
 │   ├── __init__.py
 │   ├── weather_api.py      # 天气 API 接口（和风天气 v7）
